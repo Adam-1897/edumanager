@@ -1,0 +1,18 @@
+# Dependencies and build output
+node_modules/
+backend/target/
+frontend/dist/
+frontend/dist-demo/
+
+# Local secrets and data
+backend/src/main/resources/application-local.properties
+backups/
+*.log
+
+# Tooling / OS
+.claude/
+.idea/
+.vscode/
+*.iml
+.DS_Store
+Thumbs.db

@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AcademyOS — School Management System</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=DM+Mono:wght@400;500&family=Caveat:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+      *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+      :root {
+        --c-bg:          #F4F5F7;
+        --c-surface:     #FFFFFF;
+        --c-surface-2:   #F9FAFB;
+        --c-border:      #E5E7EB;
+        --c-text-1:      #111827;
+        --c-text-2:      #4B5563;
+        --c-text-3:      #9CA3AF;
+        --c-blue:        #2563EB;
+        --c-blue-light:  #EFF6FF;
+        --c-green:       #16A34A;
+        --c-green-light: #F0FDF4;
+        --c-red:         #DC2626;
+        --c-red-light:   #FEF2F2;
+        --c-amber:       #D97706;
+        --c-amber-light: #FFFBEB;
+        --sidebar-bg:    #1E2433;
+        --sidebar-w:     228px;
+        --r-sm: 6px; --r-md: 8px; --r-lg: 12px;
+        --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
+        --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+        --shadow-lg: 0 20px 48px rgba(0,0,0,0.14), 0 6px 16px rgba(0,0,0,0.08);
+        --font: 'DM Sans', system-ui, sans-serif;
+        /* Legacy compat */
+        --color-background-primary:   #FFFFFF;
+        --color-background-secondary: #F9FAFB;
+        --color-background-tertiary:  #F4F5F7;
+        --color-border-tertiary:      #E5E7EB;
+        --color-border-secondary:     #E5E7EB;
+        --color-text-primary:         #111827;
+        --color-text-secondary:       #4B5563;
+        --color-text-tertiary:        #9CA3AF;
+        --border-radius-md:           8px;
+        --border-radius-lg:           12px;
+        --font-sans:                  'DM Sans', system-ui, sans-serif;
+      }
+      html, body { height: 100%; }
+      body { font-family: var(--font); font-size: 14px; line-height: 1.5; color: var(--c-text-1); background: var(--c-bg); -webkit-font-smoothing: antialiased; }
+      #root { height: 100vh; }
+      ::-webkit-scrollbar { width: 5px; height: 5px; }
+      ::-webkit-scrollbar-track { background: transparent; }
+      ::-webkit-scrollbar-thumb { background: var(--c-border); border-radius: 10px; }
+      input, select, textarea, button { font-family: var(--font); }
+      @keyframes fadeSlideIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+      .page-fade { animation: fadeSlideIn 0.22s ease both; }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
