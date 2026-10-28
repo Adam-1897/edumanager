@@ -23,6 +23,7 @@ public class DataSeeder {
 
     // Demo records are only inserted when explicitly enabled, so an emptied database stays empty
     @Value("${app.seed-demo-data:false}") private boolean seedDemoData;
+    @Value("${app.admin-password:}") private String adminPassword;
 
     public DataSeeder(AppUserRepository userRepo, TeacherRepository teacherRepo,
             SchoolClassRepository classRepo, StudentRepository studentRepo,
@@ -38,8 +39,13 @@ public class DataSeeder {
     CommandLineRunner seed() {
         return args -> {
             if (!userRepo.existsByUsername("admin")) {
-                userRepo.save(new AppUser("admin", encoder.encode("admin123"), AppUser.UserRole.ADMIN));
-                System.out.println("✔ Admin created: admin / admin123");
+                // No built-in default password: a public repo would make it everyone's password
+                boolean generated = adminPassword == null || adminPassword.isBlank();
+                String pw = generated ? java.util.UUID.randomUUID().toString().replace("-", "").substring(0, 16) : adminPassword;
+                userRepo.save(new AppUser("admin", encoder.encode(pw), AppUser.UserRole.ADMIN));
+                System.out.println(generated
+                    ? "✔ Admin created — username: admin, generated password: " + pw + "  (shown once; set app.admin-password to choose your own)"
+                    : "✔ Admin created — username: admin, password from app.admin-password");
             }
             if (!seedDemoData || teacherRepo.count() > 0) return;
 

@@ -1,0 +1,39 @@
+#!/bin/sh
+# Blocks commits that contain secrets. Install once with:  sh scripts/install-hooks.sh
+# Bypass only if you are sure:  git commit --no-verify
+
+fail=0
+
+# 1. Files that must never be committed
+blocked=$(git diff --cached --name-only --diff-filter=ACMR | grep -E \
+  '(^|/)application-local\.properties$|(^|/)\.env(\..*)?$|^backups/|\.(sql\.gz|dump|pem|key|p12|jks)$|(^|/)id_(rsa|ed25519)$')
+blocked=$(echo "$blocked" | grep -vE '\.env\.example$')
+if [ -n "$blocked" ]; then
+  echo "✖ These files hold secrets or private data and must not be committed:"
+  echo "$blocked" | sed 's/^/    /'
+  fail=1
+fi
+
+# 2. Secret-looking values in the added lines
+added=$(git diff --cached -U0 --diff-filter=ACMR -- . ':(exclude)*.lock' ':(exclude)*package-lock.json' | grep -E '^\+[^+]')
+hits=$(echo "$added" | grep -inE \
+  -e '(password|passwd|secret|api[_-]?key|token)[a-z_.-]*[[:space:]]*[=:][[:space:]]*\$\{[A-Z_]+:[^}[:space:]]+\}' \
+  -e '(spring\.datasource\.password|jwt\.secret|app\.admin-password)[[:space:]]*=[[:space:]]*[^$[:space:]]' \
+  -e '-----BEGIN [A-Z ]*PRIVATE KEY-----' \
+  -e 'gh[pousr]_[A-Za-z0-9]{30,}' \
+  -e 'AKIA[0-9A-Z]{16}' \
+  -e 'sk-[A-Za-z0-9_-]{20,}' \
+  -e 'mysql(dump)?(\.exe)?["'"'"']?[[:space:]].*-p[^[:space:]$]' \
+  | grep -vE '=[[:space:]]*(YOUR_[A-Z_]+|CHANGE_ME[A-Z_]*|CHOOSE_[A-Z_]+|ANY_LONG_RANDOM[A-Z0-9_]*)[[:space:]]*$')   # documented placeholders
+if [ -n "$hits" ]; then
+  echo "✖ Possible secrets in staged changes:"
+  echo "$hits" | cut -c1-160 | sed 's/^/    /'
+  fail=1
+fi
+
+if [ $fail -ne 0 ]; then
+  echo ""
+  echo "Put secrets in backend/src/main/resources/application-local.properties or environment variables."
+  exit 1
+fi
+exit 0

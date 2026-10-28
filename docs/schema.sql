@@ -175,8 +175,9 @@ CREATE INDEX idx_expenses_category   ON expenses(category);
 -- ============================================================
 -- SEED DATA — demo records
 -- ============================================================
-INSERT INTO users (username, password, role) VALUES
-('admin', '$2a$10$PInZHgDgx8IGNvVYYdjtze4TKg9/lu7rbcpvemN0NufdhnWZPSwvy', 'ADMIN');  -- password: admin123
+-- No admin row here on purpose: a password hash in a public file is a known password.
+-- The backend creates the "admin" account on first start (password from app.admin-password,
+-- or a random one printed in the console).
 
 INSERT INTO teachers (full_name, email, phone, subject, monthly_salary, hire_date, status) VALUES
 ('Dr. Hana Makhoul',  'hana@edumanager.com',  '+961-1-000001', 'Mathematics', 2500.00, '2023-09-01', 'ACTIVE'),

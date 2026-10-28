@@ -46,7 +46,8 @@ const SECTION_COLORS = {
 };
 
 function LoginPage({ onLogin }) {
-  const [form, setForm] = useState({ username: 'admin', password: 'admin123' });
+  // Only the offline demo has known credentials; the real app's admin password is set on the server
+  const [form, setForm] = useState(DEMO_MODE ? { username: 'admin', password: 'admin123' } : { username: '', password: '' });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -149,9 +150,11 @@ function LoginPage({ onLogin }) {
             {loading ? 'Signing in…' : 'Sign In →'}
           </button>
         </form>
-        <p style={{ fontSize:11, color:'#9CA3AF', textAlign:'center', marginTop:20 }}>
-          Default credentials: admin / admin123
-        </p>
+        {DEMO_MODE && (
+          <p style={{ fontSize:11, color:'#9CA3AF', textAlign:'center', marginTop:20 }}>
+            Demo credentials: admin / admin123
+          </p>
+        )}
         {DEMO_MODE && (
           <p style={{ fontSize:11, color:'#6B7280', textAlign:'center', marginTop:6 }}>
             Offline demo — no server needed; changes are saved in this browser only.{' '}

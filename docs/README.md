@@ -165,14 +165,17 @@ CREATE DATABASE edumanager;
 
 ### Step 2 — Configure the Backend
 
-Open `backend/src/main/resources/application.properties` and update your MySQL credentials:
+Copy `backend/src/main/resources/application-local.properties.example` to `application-local.properties`
+in the same folder and fill in your values:
 
 ```properties
-spring.datasource.username=root
 spring.datasource.password=YOUR_MYSQL_PASSWORD
+jwt.secret=ANY_LONG_RANDOM_STRING_32_CHARS_OR_MORE
+app.admin-password=CHOOSE_AN_ADMIN_PASSWORD
 ```
 
-> **Security note:** Do not commit real credentials to a public repository. Consider using environment variables or a `.env` file and adding `application.properties` to `.gitignore`.
+`application-local.properties` is git-ignored, so your secrets never get committed. The same values can
+be given as environment variables instead (`DB_PASSWORD`, `JWT_SECRET`, `ADMIN_PASSWORD`).
 
 ### Step 3 — Run the Backend
 
@@ -205,12 +208,12 @@ Open your browser and navigate to **http://localhost:5173** to use the applicati
 
 ## Default Credentials
 
-If you ran `docs/schema.sql` with its seed data, the following admin account is available out of the box:
+There is no built-in password. On first start the backend creates an `admin` account:
 
-| Field    | Value     |
-|----------|-----------|
-| Username | `admin`   |
-| Password | `admin123`|
+- if `app.admin-password` (or the `ADMIN_PASSWORD` environment variable) is set, that is the password;
+- otherwise a random password is generated and printed **once** in the backend console.
+
+The offline demo (`EduManager-Demo.html`) uses `admin` / `admin123`; it has no server and no real data.
 
 ---
 

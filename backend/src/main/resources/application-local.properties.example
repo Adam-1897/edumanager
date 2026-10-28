@@ -1,2 +1,6 @@
-# Copy to application-local.properties and fill in your MySQL password.
+# Copy to application-local.properties (git-ignored) and fill in your own values.
 spring.datasource.password=YOUR_MYSQL_PASSWORD
+# Any long random string (32+ characters); keeps logins valid across restarts
+jwt.secret=CHANGE_ME_TO_A_LONG_RANDOM_STRING
+# Password for the admin account created on first start (optional: random if omitted)
+app.admin-password=CHANGE_ME
